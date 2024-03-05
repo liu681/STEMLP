@@ -8,8 +8,6 @@ from torch.autograd import Variable
 
 from .dgcrn_layer import *
 
-def count_parameters(model):
-    return sum(p.numel() for p in model.parameters() if p.requires_grad)
 
 class DGCRN(nn.Module):
     """
@@ -229,10 +227,6 @@ class DGCRN(nn.Module):
         ramdom_predict = torch.zeros(batch_size, self.seq_length - task_level,
                                      self.num_nodes, self.output_dim).to(outputs_final.device)
         outputs_final = torch.cat([outputs_final, ramdom_predict], dim=1)
-        
-        print("Warning: decoder only takes the first dimension as groundtruth.")
-        print("Parameter Number: ".format(count_parameters(self)))
-        print(count_parameters(self))
 
         return outputs_final
 

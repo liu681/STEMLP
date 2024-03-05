@@ -40,7 +40,7 @@ lap_mx = torch.Tensor(adj_mx[0])
 CFG.MODEL.PARAM = {
     "num_nodes": 170,
     "input_len": 12,
-    "input_dim": 4,
+    "input_dim": 5,
     "embed_dim": 96,
     "output_len": 12,
     "num_layerA": 3,
@@ -61,7 +61,7 @@ CFG.MODEL.PARAM = {
     "time_of_tp3_size": 96,
     "lap_mx": lap_mx
 }
-CFG.MODEL.FORWARD_FEATURES = [0, 2, 3, 4] # traffic flow, time in day
+CFG.MODEL.FORWARD_FEATURES = [0, 1, 2, 3, 4] # traffic flow, time in day
 CFG.MODEL.TARGET_FEATURES = [0] # traffic flow
 
 # ================= optim ================= #

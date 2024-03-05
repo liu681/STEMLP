@@ -102,17 +102,17 @@ def calculate_transition_matrix(adj: np.ndarray) -> np.matrix:
     return prob_matrix
 
 def calculate_symmetric_normalized_laplacian(adj: np.ndarray,data: str) -> np.matrix:
-    # µ÷ÓÃcalculate_normalized_laplacianº¯Êı£¬¼ÆËãÁÚ½Ó¾ØÕóµÄ¹éÒ»»¯À­ÆÕÀ­Ë¹¾ØÕóLºÍ¹ÂÁ¢µãµÄ¸öÊı
+    # è°ƒç”¨calculate_normalized_laplacianå‡½æ•°ï¼Œè®¡ç®—é‚»æ¥çŸ©é˜µçš„å½’ä¸€åŒ–æ‹‰æ™®æ‹‰æ–¯çŸ©é˜µLå’Œå­¤ç«‹ç‚¹çš„ä¸ªæ•°
     L, isolated_point_num = calculate_normalized_laplacian(adj)
-    # ÌØÕ÷Öµ·Ö½â£¬µÃµ½LµÄÌØÕ÷ÖµEigValºÍÌØÕ÷ÏòÁ¿EigVec
+    # ç‰¹å¾å€¼åˆ†è§£ï¼Œå¾—åˆ°Lçš„ç‰¹å¾å€¼EigValå’Œç‰¹å¾å‘é‡EigVec
     EigVal, EigVec = np.linalg.eig(L.toarray())
 
-    # ÌØÕ÷ÖµÅÅĞò£¬µÃµ½ÅÅĞòË÷Òıidx
+    # ç‰¹å¾å€¼æ’åºï¼Œå¾—åˆ°æ’åºç´¢å¼•idx
     idx = EigVal.argsort()
 
-    # ÀûÓÃÌØÕ÷ÖµµÄÅÅĞòË÷Òı¶ÔÌØÕ÷ÖµºÍÌØÕ÷ÏòÁ¿ÅÅĞò
+    # åˆ©ç”¨ç‰¹å¾å€¼çš„æ’åºç´¢å¼•å¯¹ç‰¹å¾å€¼å’Œç‰¹å¾å‘é‡æ’åº
     EigVal, EigVec = EigVal[idx], np.real(EigVec[:, idx])
-    # È¥µô¹ÂÁ¢µãµÄÌØÕ÷ÏòÁ¿£¬È¡Ç°x¸öÌØÕ÷ÏòÁ¿×é³ÉÍ¼µÄÇ¶ÈëX_spe
+    # å»æ‰å­¤ç«‹ç‚¹çš„ç‰¹å¾å‘é‡ï¼Œå–å‰xä¸ªç‰¹å¾å‘é‡ç»„æˆå›¾çš„åµŒå…¥X_spe
     if data=="PEMS04" or data=="PEMS-BAY":
         x = 64
     elif data=="PEMS08" or data=="TFA":
@@ -120,52 +120,52 @@ def calculate_symmetric_normalized_laplacian(adj: np.ndarray,data: str) -> np.ma
     elif data=="PEMS07":
         x = 96
     laplacian_pe = torch.from_numpy(EigVec[:, isolated_point_num + 1: x + isolated_point_num + 1]).float()
-    # ÉèÖÃÇ¶ÈëµÄÌİ¶ÈÎªFalse£¬±íÊ¾²»ĞèÒª¸üĞÂ
+    # è®¾ç½®åµŒå…¥çš„æ¢¯åº¦ä¸ºFalseï¼Œè¡¨ç¤ºä¸éœ€è¦æ›´æ–°
     laplacian_pe.require_grad = False
-    # ½«Ç¶Èë×ª»»ÎªnumpyÊı×é
+    # å°†åµŒå…¥è½¬æ¢ä¸ºnumpyæ•°ç»„
     laplacian_pe = laplacian_pe.numpy()
-    # ½«Ç¶Èë×ª»»ÎªÏ¡Êè¾ØÕó
+    # å°†åµŒå…¥è½¬æ¢ä¸ºç¨€ç–çŸ©é˜µ
     laplacian_pe = sp.csr_matrix(laplacian_pe)
 
-    # ·µ»ØÇ¶Èë
+    # è¿”å›åµŒå…¥
     return laplacian_pe
 
 def calculate_normalized_laplacian(adj: np.ndarray):
-    # ½«ÁÚ½Ó¾ØÕó×ª»»ÎªÏ¡Êè¾ØÕó
+    # å°†é‚»æ¥çŸ©é˜µè½¬æ¢ä¸ºç¨€ç–çŸ©é˜µ
     adj = sp.coo_matrix(adj)
-    # ¼ÆËãÁÚ½Ó¾ØÕóµÄÃ¿Ò»ĞĞµÄºÍ£¬µÃµ½¶È¾ØÕóDµÄ¶Ô½ÇÏßÔªËØ
+    # è®¡ç®—é‚»æ¥çŸ©é˜µçš„æ¯ä¸€è¡Œçš„å’Œï¼Œå¾—åˆ°åº¦çŸ©é˜µDçš„å¯¹è§’çº¿å…ƒç´ 
     d = np.array(adj.sum(1))
 
-    # ¼ÆËã¹ÂÁ¢µãµÄ¸öÊı£¬¼´¶ÈÎª0µÄµã
+    # è®¡ç®—å­¤ç«‹ç‚¹çš„ä¸ªæ•°ï¼Œå³åº¦ä¸º0çš„ç‚¹
     isolated_point_num = np.sum(np.where(d, 0, 1))
-    # ¼ÆËã¶È¾ØÕóDµÄÄæÆ½·½¸ù£¬µÃµ½D^{-1/2}
+    # è®¡ç®—åº¦çŸ©é˜µDçš„é€†å¹³æ–¹æ ¹ï¼Œå¾—åˆ°D^{-1/2}
     d_inv_sqrt = np.power(d, -0.5).flatten()
-    # ½«ÎŞÇî´óµÄÖµÌæ»»Îª0
+    # å°†æ— ç©·å¤§çš„å€¼æ›¿æ¢ä¸º0
     d_inv_sqrt[np.isinf(d_inv_sqrt)] = 0.
-    # ½«D^{-1/2}×ª»»Îª¶Ô½Ç¾ØÕó
+    # å°†D^{-1/2}è½¬æ¢ä¸ºå¯¹è§’çŸ©é˜µ
     d_mat_inv_sqrt = sp.diags(d_inv_sqrt)
-    # ¼ÆËã¹éÒ»»¯À­ÆÕÀ­Ë¹¾ØÕóL = I - D^{-1/2}AD^{-1/2}
+    # è®¡ç®—å½’ä¸€åŒ–æ‹‰æ™®æ‹‰æ–¯çŸ©é˜µL = I - D^{-1/2}AD^{-1/2}
     normalized_laplacian = sp.eye(adj.shape[0]) - adj.dot(d_mat_inv_sqrt).transpose().dot(d_mat_inv_sqrt).tocoo()
-    # ·µ»Ø¹éÒ»»¯À­ÆÕÀ­Ë¹¾ØÕóºÍ¹ÂÁ¢µãµÄ¸öÊı
+    # è¿”å›å½’ä¸€åŒ–æ‹‰æ™®æ‹‰æ–¯çŸ©é˜µå’Œå­¤ç«‹ç‚¹çš„ä¸ªæ•°
     return normalized_laplacian, isolated_point_num
 
 
 def calculate_normalized_laplacianzihuanb(adj: np.ndarray):
     i = sp.eye(adj.shape[0])
     adj = adj + i
-    # ½«ÁÚ½Ó¾ØÕó×ª»»ÎªÏ¡Êè¾ØÕó
+    # å°†é‚»æ¥çŸ©é˜µè½¬æ¢ä¸ºç¨€ç–çŸ©é˜µ
     adj = sp.coo_matrix(adj)
-    # ¼ÆËãÁÚ½Ó¾ØÕóµÄÃ¿Ò»ĞĞµÄºÍ£¬µÃµ½¶È¾ØÕóDµÄ¶Ô½ÇÏßÔªËØ
+    # è®¡ç®—é‚»æ¥çŸ©é˜µçš„æ¯ä¸€è¡Œçš„å’Œï¼Œå¾—åˆ°åº¦çŸ©é˜µDçš„å¯¹è§’çº¿å…ƒç´ 
     d = np.array(adj.sum(1))
-    # ¼ÆËã¹ÂÁ¢µãµÄ¸öÊı£¬¼´¶ÈÎª0µÄµã
+    # è®¡ç®—å­¤ç«‹ç‚¹çš„ä¸ªæ•°ï¼Œå³åº¦ä¸º0çš„ç‚¹
     isolated_point_num = np.sum(np.where(d, 0, 1))
-    # ¼ÆËã¶È¾ØÕóDµÄÄæÆ½·½¸ù£¬µÃµ½D^{-1/2}
+    # è®¡ç®—åº¦çŸ©é˜µDçš„é€†å¹³æ–¹æ ¹ï¼Œå¾—åˆ°D^{-1/2}
     d_inv_sqrt = np.power(d, -0.5).flatten()
-    # ½«ÎŞÇî´óµÄÖµÌæ»»Îª0
+    # å°†æ— ç©·å¤§çš„å€¼æ›¿æ¢ä¸º0
     d_inv_sqrt[np.isinf(d_inv_sqrt)] = 0.
-    # ½«D^{-1/2}×ª»»Îª¶Ô½Ç¾ØÕó
+    # å°†D^{-1/2}è½¬æ¢ä¸ºå¯¹è§’çŸ©é˜µ
     d_mat_inv_sqrt = sp.diags(d_inv_sqrt)
 
     normalized_laplacian = adj.dot(d_mat_inv_sqrt).transpose().dot(d_mat_inv_sqrt).tocoo()
-    # ·µ»Ø¹éÒ»»¯À­ÆÕÀ­Ë¹¾ØÕóºÍ¹ÂÁ¢µãµÄ¸öÊı
+    # è¿”å›å½’ä¸€åŒ–æ‹‰æ™®æ‹‰æ–¯çŸ©é˜µå’Œå­¤ç«‹ç‚¹çš„ä¸ªæ•°
     return normalized_laplacian, isolated_point_num

@@ -64,8 +64,7 @@ def load_adj(file_path: str, adj_type: str):
         data = file_path
         data = data.replace("datasets/", "")
         data = data.replace("/adj_mx.pkl", "")
-        adj = [calculate_symmetric_normalized_laplacian(
-            adj_mx,data).astype(np.float32).todense()]
+        adj = [calculate_symmetric_normalized_laplacian(adj_mx, data).astype(np.float32).todense()]
     elif adj_type == "symnadj":
         adj = [calculate_symmetric_message_passing_adj(
             adj_mx).astype(np.float32).todense()]

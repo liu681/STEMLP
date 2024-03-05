@@ -62,7 +62,7 @@ def generate_data(args: argparse.Namespace):
     # 计算归一化后的数组
     normalized_arr = period_weight / max_val
     print(normalized_arr)
-    print(period_weight)
+    print(period_list)
     num_samples = l - (history_seq_len + future_seq_len) + 1
     train_num = round(num_samples * train_ratio)
     valid_num = round(num_samples * valid_ratio)
@@ -119,7 +119,7 @@ def generate_data(args: argparse.Namespace):
         tod = np.array(tod)
         tod_tiled = np.tile(tod, [1, n, 1]).transpose((2, 1, 0))
         feature_list.append(tod_tiled)
-    steps_per_day = period_list[3]
+    steps_per_day = 156
     if add_time_of_tp2:
         # numerical time_of_day
         tod = [i % steps_per_day /
@@ -128,7 +128,7 @@ def generate_data(args: argparse.Namespace):
         tod_tiled = np.tile(tod, [1, n, 1]).transpose((2, 1, 0))
         feature_list.append(tod_tiled)
 
-    steps_per_day = period_list[4]
+    steps_per_day = 336
     if add_time_of_tp3:
         # numerical time_of_day
         tod = [i % steps_per_day /

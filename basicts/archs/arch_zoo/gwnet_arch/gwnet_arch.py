@@ -226,10 +226,4 @@ class GraphWaveNet(nn.Module):
         x = F.relu(skip)
         x = F.relu(self.end_conv_1(x))
         x = self.end_conv_2(x)
-        print("Warning: decoder only takes the first dimension as groundtruth.")
-        print("Parameter Number: ".format(count_parameters(self)))
-        print(count_parameters(self))
         return x
-
-def count_parameters(model):
-    return sum(p.numel() for p in model.parameters() if p.requires_grad)

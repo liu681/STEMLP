@@ -58,7 +58,10 @@ def generate_data(args: argparse.Namespace):
     l, n, f = data.shape
     k = 5
     period_list, period_weight = FFT_for_Period(data.transpose((2, 0, 1)), k)
-    print(period_list)
+    max_val = np.max(period_weight)
+    # 计算归一化后的数组
+    normalized_arr = period_weight / max_val
+    print(normalized_arr)
     num_samples = l - (history_seq_len + future_seq_len) + 1
     train_num = round(num_samples * train_ratio)
     valid_num = round(num_samples * valid_ratio)

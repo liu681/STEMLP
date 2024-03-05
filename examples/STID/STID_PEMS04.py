@@ -1,6 +1,6 @@
 import os
 import sys
-import torch
+
 # TODO: remove it when basicts can be installed by pip
 sys.path.append(os.path.abspath(__file__ + "/../../.."))
 from easydict import EasyDict
@@ -8,7 +8,7 @@ from basicts.losses import masked_mae
 from basicts.data import TimeSeriesForecastingDataset
 from basicts.runners import SimpleTimeSeriesForecastingRunner
 from basicts.archs import STID
-from basicts.utils import load_adj
+
 
 CFG = EasyDict()
 
@@ -33,10 +33,6 @@ CFG.ENV.CUDNN.ENABLED = True
 CFG.MODEL = EasyDict()
 CFG.MODEL.NAME = "STID"
 CFG.MODEL.ARCH = STID
-device = torch.device("cuda:0")
-adj_mx, adj = load_adj("datasets/" + CFG.DATASET_NAME + "/adj_mx.pkl", "normlap")
-lap_mx = torch.Tensor(adj_mx[0])
-adj_mx = torch.Tensor(adj)
 CFG.MODEL.PARAM = {
     "num_nodes": 307,
     "input_len": 12,
@@ -51,9 +47,7 @@ CFG.MODEL.PARAM = {
     "temp_dim_tid": 32,
     "temp_dim_diw": 32,
     "time_of_day_size": 288,
-    "day_of_week_size": 7,
-    "gso": adj_mx,
-    "lap_mx": lap_mx
+    "day_of_week_size": 7
 }
 CFG.MODEL.FORWARD_FEATURES = [0, 1, 2 ,3,4] # traffic flow, time in day
 CFG.MODEL.TARGET_FEATURES = [0] # traffic flow

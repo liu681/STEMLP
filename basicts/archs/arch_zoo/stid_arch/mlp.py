@@ -13,7 +13,7 @@ class MultiLayerPerceptron(nn.Module):
             in_channels=hidden_dim, out_channels=input_dim, kernel_size=(1, 1), bias=True)
         self.act = nn.ReLU()
         self.drop = nn.Dropout(p=0.15)
-        
+
     def forward(self, input_data: torch.Tensor) -> torch.Tensor:
         """Feed forward of MLP.
 
@@ -24,6 +24,6 @@ class MultiLayerPerceptron(nn.Module):
             torch.Tensor: latent repr
         """
 
-        hidden = self.fc2(self.drop(self.act(self.fc1(input_data))))     # MLP
+        hidden = self.fc2(self.drop(self.act(self.fc1(input_data))))      # MLP
         hidden = hidden + input_data                           # residual
         return hidden

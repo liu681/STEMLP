@@ -59,6 +59,8 @@ CFG.MODEL.PARAM = {
     "day_of_week_size": 7,
     "time_of_tp2_size": 144,
     "time_of_tp3_size": 96,
+    "time_of_tp4_size": 154,
+    "time_of_tp5_size": 332,
     "lap_mx": lap_mx
 }
 CFG.MODEL.FORWARD_FEATURES = [0, 1, 2, 3, 4] # traffic flow, time in day
