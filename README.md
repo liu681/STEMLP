@@ -74,16 +74,3 @@ Replace `${DATASET_NAME}` with one of `PEMS04`, `PEMS07`, `PEMS08`, and `TFA`, *
 ```bash
 python examples/run.py -c examples/STEMLP/STEMLP_PEMS04.py --gpus '0'
 ```
-
-## Citing
-
-```bibtex
-@inproceedings{10.1145/3511808.3557702,
-author = {Shao, Zezhi and Zhang, Zhao and Wang, Fei and Wei, Wei and Xu, Yongjun},
-title = {Spatial-Temporal Identity: A Simple yet Effective Baseline for Multivariate Time Series Forecasting},
-year = {2022},
-booktitle = {Proceedings of the 31st ACM International Conference on Information & Knowledge Management},
-pages = {4454–4458},
-location = {Atlanta, GA, USA}
-}
-```
