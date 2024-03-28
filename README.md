@@ -1,4 +1,4 @@
-
+## The full project code will be given after the official publication of the article.The model files for STEMLP are in the path basicts/archs/arch_zoo/stemlp_arch
 
 Our code is built on [BasicTS](https://github.com/zezhishao/BasicTS), an open-source standard time series forecasting benchmark.
 
